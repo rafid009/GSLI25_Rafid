@@ -9,10 +9,6 @@
   - Complete proofs for all the theoretical results in the manuscript, including Propositions 1, and Propositions 2;
   - Time complexity and space complexity analysis of our proposed node-scale spatial learning and feature-scale spatial learning modules;
   - More supplementary experiments that demonstrate the effectiveness and rationality of our method.
-+ Rebuttal.pdf:
-  - Notations table that summary the symbols;
-  - Additional statistical analyses based on the results in Table 2, including the p-value of the T-test and average improvement over the second-best results;
-  - Forecasting experimental results.
 
 
 ## Preprocessing each dataset
