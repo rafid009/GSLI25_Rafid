@@ -148,7 +148,7 @@ class PEMSBAY_DATASET(Dataset):
         super(PEMSBAY_DATASET, self).__init__()
         self.configs = configs
         self.data = np.loadtxt("Data/pemsbay/pemsbay_norm.csv", delimiter=",")
-        self.mask = np.loadtxt("Data/pemsbay/mask/awn_mask.csv", delimiter=",")
+        self.mask = np.loadtxt("Data/pemsbay/mask/pemsbay_mask.csv", delimiter=",")
         # self.gt_mask = np.ones_like(self.data)
         self.gt_mask = ~np.isnan(self.data)
         self.data = np.nan_to_num(self.data)
