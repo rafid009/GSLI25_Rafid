@@ -73,6 +73,41 @@ def get_nacse_dataset(configs):
     test_loader = DataLoader(dataset, batch_size=configs.batch, num_workers=0, shuffle=False)
     return train_loader, test_loader
 
+class AWN_DATASET(Dataset):
+    def __init__(self, configs):
+        super(AWN_DATASET, self).__init__()
+        self.configs = configs
+        self.data = pd.read_csv("Data/awn/awn_norm.csv").to_numpy() #np.loadtxt("Data/nacse/nacse_norm.csv", delimiter=",")
+        self.mask = np.loadtxt("Data/awn/mask/awn_mask.csv", delimiter=",")
+        # self.gt_mask = np.ones_like(self.data)
+        self.gt_mask = ~np.isnan(self.data)
+        self.data = np.nan_to_num(self.data)
+        self.data = self.data.reshape(self.data.shape[0], self.configs.num_nodes, self.configs.feature)
+        self.mask = self.mask.reshape(self.mask.shape[0], self.configs.num_nodes, self.configs.feature)
+        self.gt_mask = self.gt_mask.reshape(self.gt_mask.shape[0], self.configs.num_nodes, self.configs.feature)
+
+    def __len__(self):
+        # Needs to be divisible
+        return self.data.shape[0] // self.configs.seq_len
+
+    def __getitem__(self, index):
+        data_res = self.data[index * self.configs.seq_len: (index+1) * self.configs.seq_len]
+        mask_res = self.mask[index * self.configs.seq_len: (index+1) * self.configs.seq_len]
+        observed_tp = np.arange(self.configs.seq_len)
+        gt_mask_res = self.gt_mask[index * self.configs.seq_len: (index+1) * self.configs.seq_len]
+
+        data_res = torch.from_numpy(data_res).float()
+        mask_res = torch.from_numpy(mask_res).float()
+        observed_tp = torch.from_numpy(observed_tp).float()
+        gt_mask_res = torch.from_numpy(gt_mask_res).float()
+        return data_res, observed_tp, mask_res, gt_mask_res
+
+def get_awn_dataset(configs):
+    dataset = AWN_DATASET(configs)
+    train_loader = DataLoader(dataset, batch_size=configs.batch, num_workers=0, shuffle=True)
+    test_loader = DataLoader(dataset, batch_size=configs.batch, num_workers=0, shuffle=False)
+    return train_loader, test_loader
+
 def get_london_dataset(configs):
     dataset = LONDON_DATASET(configs)
     train_loader = DataLoader(dataset, batch_size=configs.batch, num_workers=0, shuffle=True)
@@ -293,6 +328,8 @@ def get_dataset(configs):
         return get_cn_dataset(configs)
     if configs.dataset == "nacse":
         return get_nacse_dataset(configs)
+    if configs.dataset == "awn":
+        return get_awn_dataset(configs)
 
 
 class LONDON_DATASET_FORECASTING_TRAIN(Dataset):
@@ -521,6 +558,10 @@ def get_nacse_adj():
     adj_in = np.loadtxt("Data/nacse/nacse_adj.csv", delimiter=",")
     return adj_in
 
+def get_awn_adj():
+    adj_in = np.loadtxt("Data/awn/awn_adj.csv", delimiter=",")
+    return adj_in
+
 def get_adj(configs):
     if configs.dataset == "london":
         return get_london_adj()
@@ -536,3 +577,5 @@ def get_adj(configs):
         return get_cn_adj()
     if configs.dataset == "nacse":
         return get_nacse_adj()
+    if configs.dataset == "awn":
+        return get_awn_adj()
