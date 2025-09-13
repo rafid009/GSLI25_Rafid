@@ -3,7 +3,7 @@ import pandas as pd
 
 data = pd.read_csv("Data/nacse/nacse_norm.csv")
 
-mask = ~np.isnan(data)
+mask = ~np.isnan(data.to_numpy())
 
 for i in range(mask.shape[0]):
     temp = mask[i].copy().reshape(-1, 2)
