@@ -8,6 +8,7 @@ import torch
 import torch.nn as nn
 
 
+
 def model_train(configs):
     train_loader, __ = A_dataset.get_dataset(configs)
 
@@ -72,8 +73,10 @@ def model_test(configs, model):
         observed_data = observed_data.to(configs.device)
         observed_mask = observed_mask.to(configs.device)
         observed_tp = observed_tp.to(configs.device)
-
+        start = time.time()
         impute_data = model(observed_data, observed_tp, observed_mask)
+        end = time.time()
+        print(f"total time: {(end - start)/configs.batch}")
         impute_data = observed_mask * observed_data + (1-observed_mask) * impute_data
         
         impute_data = impute_data.detach().to("cpu").numpy()
