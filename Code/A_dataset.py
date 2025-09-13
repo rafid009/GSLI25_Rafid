@@ -132,7 +132,7 @@ class METRLA_DATASET(Dataset):
         if mask_res.shape[0] < data_res.shape[0]:
             res = data_res.shape[0] - mask_res.shape[0]
             for i in range(res):
-                ones = np.ones((data_res.shape[1], data_res.shape[2]))
+                ones = np.ones((1, data_res.shape[1], data_res.shape[2]))
                 mask_res = np.concatenate([mask_res, ones], axis=0)
         observed_tp = np.arange(self.configs.seq_len)
         gt_mask_res = self.gt_mask[index * self.configs.seq_len: (index+1) * self.configs.seq_len]
