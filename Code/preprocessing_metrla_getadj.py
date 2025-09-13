@@ -57,7 +57,7 @@ def get_similarity(dist, thr=0.1, include_self=False, force_symmetric=False, spa
 
 
 def get_adj_metrla():
-    df = pd.read_csv("Data/metrla_locations.csv")
+    df = pd.read_csv("Data/metrla/metrla_locations.csv")
     df = df[['latitude', 'longitude']]
     res = geographical_distance(df, to_rad=False).values
 
