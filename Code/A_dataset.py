@@ -3,6 +3,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 import numpy as np
 import torch
+import pandas as pd
 # import torchcde
 
 class LONDON_DATASET(Dataset):
@@ -41,7 +42,7 @@ class NACSE_DATASET(Dataset):
     def __init__(self, configs):
         super(NACSE_DATASET, self).__init__()
         self.configs = configs
-        self.data = np.loadtxt("Data/nacse/nacse_norm.csv", delimiter=",")
+        self.data = pd.read_csv("Data/nacse/nacse_norm.csv").to_numpy() #np.loadtxt("Data/nacse/nacse_norm.csv", delimiter=",")
         self.mask = np.loadtxt("Data/nacse/mask/nacse_mask.csv", delimiter=",")
         # self.gt_mask = np.ones_like(self.data)
         self.gt_mask = ~np.isnan(self.data)
