@@ -17,10 +17,10 @@ parser.add_argument('--seed', type=int, default=3407, help='random seed')
 # cn: {seq_len:8 node:140, feature:6} 
 # los: {seq_len:16 node:207, feature:1} 
 # luohutaxi: {seq_len:16 node:156, feature:1} 
-parser.add_argument('--dataset', type=str, default="beijingmeo", help='dataset name')
-parser.add_argument('--seq_len', type=int, default=48, help='input sequence length')
-parser.add_argument('--num_nodes', type=int, default=18, help='input node num')
-parser.add_argument('--feature', type=int, default=5, help='input feature dim')
+parser.add_argument('--dataset', type=str, default="nacse", help='dataset name')
+parser.add_argument('--seq_len', type=int, default=30, help='input sequence length')
+parser.add_argument('--num_nodes', type=int, default=179, help='input node num')
+parser.add_argument('--feature', type=int, default=2, help='input feature dim')
 
 #######################################################################################
 parser.add_argument('--learning_rate', type=float, default=1e-3, help='learing rate')
