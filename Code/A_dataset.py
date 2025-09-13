@@ -135,6 +135,7 @@ class METRLA_DATASET(Dataset):
         mask_res = torch.from_numpy(mask_res).float()
         observed_tp = torch.from_numpy(observed_tp).float()
         gt_mask_res = torch.from_numpy(gt_mask_res).float()
+        print(f"index: {index}, data res: {data_res.shape}, mask: {mask_res.shape}, gt mask: {gt_mask_res.shape}, obs tp: {observed_tp.shape}")
         return data_res, observed_tp, mask_res, gt_mask_res
 
 def get_metrla_dataset(configs):
